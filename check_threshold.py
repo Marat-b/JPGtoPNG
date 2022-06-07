@@ -41,7 +41,8 @@ def scale_hsv(*args):
 cv2.namedWindow(windowName, cv2.WINDOW_AUTOSIZE)
 
 # load an image
-image_path = r"Y:\UTILZ\MaskRCNN\potato\store\in\set32\20220513_144430.jpg"
+# image_path = r"Y:\UTILZ\MaskRCNN\potato\store\in\set32\20220513_144430.jpg"
+image_path = r"C:\softz\work\potato\in\images\set37\photo_2022-06-06_15-51-19.jpg"
 image = cv2.imdecode(np.fromfile(image_path, np.uint8), cv2.IMREAD_UNCHANGED)
 cv2.createTrackbar(trackbarValue, windowName, scaleFactor, 255, scale_hsv)
 cv2.createTrackbar(blurValue, windowName, scale_blur, 100, scale_hsv)

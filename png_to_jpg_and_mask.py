@@ -3,28 +3,7 @@ from os.path import join, isfile
 import cv2
 import pathlib
 
-from utils.utils import get_mask, resize_rgba
-
-
-def image_to_mask(image):
-    """
-    for yandex\картошка
-    :param image:
-    :return:
-    """
-    # b_channel, g_channel, r_channel = cv2.split(image)
-    ##################################################
-    image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    h_channel, s_channel, v_channel = cv2.split(image_hsv)
-    # cv2_imshow(s_channel, 's_channel')
-    # s_channel_blurred = cv2.blur(s_channel, (10, 10))
-    # cv2_imshow(s_channel_blurred, 's_channel_blurred')
-    mask = cv2.threshold(s_channel, 56, 255, cv2.THRESH_BINARY)[1]
-    new_mask = get_mask(mask)
-    # cv2_imshow(mask, 'mask')
-    image_rgb = cv2.merge((new_mask, new_mask, new_mask))
-    return image_rgb
-
+from utils.utils import get_mask, resize_rgba, rgba2mask
 
 if __name__ == '__main__':
     import argparse
@@ -62,8 +41,7 @@ if __name__ == '__main__':
 
             im1 = cv2.imread('{}{}'.format(input_dir, file), cv2.IMREAD_UNCHANGED)
             im1 = cv2.resize(im1, new_shape)
-            cv2.imwrite('{}{}.jpg'.format(output_image_path, file_name), im1)
-            # im1 = resize_and_cut(im1)
-            im2 = image_to_mask(im1)
-
-            cv2.imwrite('{}{}_label.png'.format(output_mask_path, file_name), im2)
+            im2, mask = rgba2mask(im1)
+            if im2 is not None:
+                cv2.imwrite('{}{}.jpg'.format(output_image_path, file_name), im2)
+                cv2.imwrite('{}{}_label.png'.format(output_mask_path, file_name), mask)

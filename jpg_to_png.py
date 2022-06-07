@@ -1,3 +1,4 @@
+import os
 from os import listdir
 from os.path import join, isfile
 import cv2
@@ -14,24 +15,36 @@ def resize_and_cut(image):
 
 
 if __name__ == '__main__':
-    number = 36
-    root_path = 'Y:\\UTILZ\\MaskRCNN\\potato\\'
-    input_path = '{}store\\in\\set{}\\'.format(root_path, str(number))
+    import argparse
 
-    output_path = '{}set{}\\input\\foregrounds\\potato\\potato_sick\\'.format(root_path, str(number))
-    pathlib.Path(output_path).mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser(description="Generate png files")
+    parser.add_argument(
+        "-id", "--input_dir", dest="input_directory",
+        help="input path to a JPG files and output path by default "
+    )
+    parser.add_argument(
+        "-od", "--output_dir", dest="output_directory", default=None,
+        help="another path to a resized (changed)  PNG files"
+    )
+    args = parser.parse_args()
+    input_dir = args.input_directory
+    if args.output_directory is None:
+        output_dir = args.input_directory
+    else:
+        output_dir = args.output_directory
 
-    files = [f for f in listdir(input_path) if isfile(join(input_path, f)) and
-             join(input_path, f).split('.')[1] != 'db']
+    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+
+    files = [f for f in listdir(input_dir) if isfile(join(input_dir, f)) and
+             join(input_dir, f).split('.')[1] != 'db']
     count = 0
     for file in files:
         # print(file)
         file_name, ext = file.split('.')
-        print('{}{}.png'.format(input_path, file_name))
+        print('{}.png'.format(join(input_dir, file_name)))
 
-        im1 = cv2.imread('{}{}'.format(input_path, file), cv2.IMREAD_UNCHANGED)
+        im1 = cv2.imread(join(input_dir, file), cv2.IMREAD_UNCHANGED)
         # im1 = resize_and_cut(im1)
-        im2 = add_alpha_channel_5(im1)
+        im2 = add_alpha_channel_5(im1, (512, 512))
 
-
-        cv2.imwrite('{}{}.png'.format(output_path, file_name), im2)
+        cv2.imwrite('{}.png'.format(join(output_dir, file_name)), im2)
