@@ -37,11 +37,12 @@ if __name__ == '__main__':
         # print(file)
         file_name, ext = file.split('.')
         if ext == 'png':
-            print('{}{}.png'.format(input_dir, file_name))
+            print('{}/{}.png'.format(input_dir, file_name))
 
-            im1 = cv2.imread('{}{}'.format(input_dir, file), cv2.IMREAD_UNCHANGED)
+            im1 = cv2.imread('{}/{}'.format(input_dir, file), cv2.IMREAD_UNCHANGED)
             im1 = cv2.resize(im1, new_shape)
             im2, mask = rgba2mask(im1)
+            mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
             if im2 is not None:
-                cv2.imwrite('{}{}.jpg'.format(output_image_path, file_name), im2)
-                cv2.imwrite('{}{}_label.png'.format(output_mask_path, file_name), mask)
+                cv2.imwrite('{}/{}.jpg'.format(output_image_path, file_name), im2)
+                cv2.imwrite('{}/{}_label.png'.format(output_mask_path, file_name), mask)
