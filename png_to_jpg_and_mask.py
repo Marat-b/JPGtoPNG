@@ -6,6 +6,7 @@ import pathlib
 from utils.utils import get_mask, resize_rgba, rgba2mask
 
 if __name__ == '__main__':
+    # for deeplabv3
     import argparse
 
     parser = argparse.ArgumentParser(description="Generate png files")
