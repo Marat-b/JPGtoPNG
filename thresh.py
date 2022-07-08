@@ -7,7 +7,7 @@ from cv2_imshow import cv2_imshow
 # image_path = r'Y:\UTILZ\MaskRCNN\potato\store\in\set26\DSC_0614.JPG'
 # image_path = 'Y:\\UTILZ\\MaskRCNN\\potato\\store\\in\\yandex\\Картошка фото\\20220418_101211.jpg'.encode(
 #     'cp1251').decode('utf-8')
-image_path2 = r"Y:\UTILZ\MaskRCNN\potato\store\in\set32\20220513_144430.jpg"
+image_path2 = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\alternariosis\20220418_130253.jpg"
 print(image_path2)
 
 # image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)

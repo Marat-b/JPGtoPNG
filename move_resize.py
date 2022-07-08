@@ -1,4 +1,3 @@
-import os
 from os import listdir
 from os.path import join, isfile
 import cv2
@@ -14,12 +13,6 @@ def tuple_type(strings):
     strings = strings.replace("(", "").replace(")", "")
     mapped_int = map(int, strings.split(","))
     return tuple(mapped_int)
-
-
-def resize_and_cut(image):
-    image_resized = cv2.resize(image, (600, 401))
-    image_resized = image_resized[:, :550]
-    return image_resized
 
 
 if __name__ == '__main__':
@@ -38,18 +31,15 @@ if __name__ == '__main__':
         "-s", "--shape", default=(512, 512), type=tuple_type,
         help="New shape of image"
     )
-    parser.add_argument("-t", "--threshold", default=50, type=int,
-                        help="Threshold for image")
     parser.add_argument(
-        "-u", "--suffix", default=None, type=str,
+        "-u", "--suffix", default='z', type=str,
         help="New shape of image"
     )
+
     args = parser.parse_args()
     input_dir = args.input_directory
     new_shape = args.shape
-    threshold = args.threshold
     suffix = args.suffix
-
     if args.output_directory is None:
         output_dir = args.input_directory
     else:
@@ -66,10 +56,6 @@ if __name__ == '__main__':
         # print('{}.png'.format(join(input_dir, file_name)))
 
         im1 = cv2.imread(join(input_dir, file), cv2.IMREAD_UNCHANGED)
-        # im1 = resize_and_cut(im1)
-        im2 = add_alpha_channel_5(im1, new_shape, threshold)
-        # im2 = add_alpha_channel_2(im1, new_shape, threshold)
-        if suffix is None:
-            cv2.imwrite('{}.png'.format(join(output_dir, file_name)), im2)
-        else:
-            cv2.imwrite('{}_{}.png'.format(join(output_dir, file_name), suffix), im2)
+        im2 = cv2.resize(im1, new_shape)
+        new_file_name = '{}_{}.{}'.format(file_name, suffix, ext)
+        cv2.imwrite(join(output_dir, new_file_name), im2)

@@ -5,9 +5,10 @@ from cv2_imshow import cv2_imshow
 from utils.utils import get_mask, resize_rgba
 
 
-def add_alpha_channel_5(image, shape):
+def add_alpha_channel_5(image, shape, threshold: int):
     """
     for yandex\картошка
+    :param threshold:
     :param shape:
     :type shape:
     :param image:
@@ -18,10 +19,10 @@ def add_alpha_channel_5(image, shape):
     image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     h_channel, s_channel, v_channel = cv2.split(image_hsv)
     # cv2_imshow(s_channel, 's_channel')
-    # s_channel_blurred = cv2.blur(s_channel, (10, 10))
+    s_channel_blurred = cv2.blur(s_channel, (10, 10))
     # cv2_imshow(s_channel_blurred, 's_channel_blurred')
     # mask = cv2.threshold(s_channel, 56, 255, cv2.THRESH_BINARY)[1]
-    mask = cv2.threshold(s_channel, 70, 255, cv2.THRESH_BINARY)[1]
+    mask = cv2.threshold(s_channel_blurred, threshold, 255, cv2.THRESH_BINARY)[1]
     new_mask = get_mask(mask)
     # cv2_imshow(mask, 'mask')
     image_rgba = cv2.merge((b_channel, g_channel, r_channel, new_mask))
