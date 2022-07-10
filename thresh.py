@@ -7,7 +7,7 @@ from cv2_imshow import cv2_imshow
 # image_path = r'Y:\UTILZ\MaskRCNN\potato\store\in\set26\DSC_0614.JPG'
 # image_path = 'Y:\\UTILZ\\MaskRCNN\\potato\\store\\in\\yandex\\Картошка фото\\20220418_101211.jpg'.encode(
 #     'cp1251').decode('utf-8')
-image_path2 = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\alternariosis\20220418_130253.jpg"
+image_path2 = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\validate\internalrot\20220624_182735.jpg"
 print(image_path2)
 
 # image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
@@ -45,11 +45,11 @@ image_rgba = cv2.merge((r_channel, g_channel, b_channel, mask_united))
 cv2_imshow(image, 'image')
 cv2_imshow(h_channel, 'h_channel')
 cv2_imshow(h_channel_blurred, 'h_channel_blurred')
-# cv2_imshow(s_channel, 's_channel')
-# cv2_imshow(v_channel, 'v_channel')
-# cv2_imshow(b_channel, 'b_channel')
-# cv2_imshow(g_channel, 'g_channel')
-# cv2_imshow(r_channel, 'r_channel')
+cv2_imshow(s_channel, 's_channel')
+cv2_imshow(v_channel, 'v_channel')
+cv2_imshow(b_channel, 'b_channel')
+cv2_imshow(g_channel, 'g_channel')
+cv2_imshow(r_channel, 'r_channel')
 # cv2_imshow(dilate_mask_2, 'dilate_mask_2')
 cv2_imshow(mask, 'mask')
 cv2_imshow(mask_bright, 'mask_bright')

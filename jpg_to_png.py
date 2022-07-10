@@ -6,6 +6,7 @@ import pathlib
 
 from tqdm import tqdm
 
+from add_alpha_channel6 import add_alpha_channel6
 from add_alpha_channel_2 import add_alpha_channel_2
 from add_alpha_channel_5 import add_alpha_channel_5
 
@@ -42,13 +43,24 @@ if __name__ == '__main__':
                         help="Threshold for image")
     parser.add_argument(
         "-u", "--suffix", default=None, type=str,
-        help="New shape of image"
+        help="Suffix for name of file"
+    )
+    parser.add_argument(
+        "-k", "--kernel", default=1, type=int,
+        help="Kernel of blur"
+    )
+    parser.add_argument(
+        "-rgb", "--rgb_mask", default=False, type=bool,
+        help="RGB mask is choose"
     )
     args = parser.parse_args()
     input_dir = args.input_directory
+    kernel = args.kernel
     new_shape = args.shape
+    rgb_mask = args.rgb_mask
     threshold = args.threshold
     suffix = args.suffix
+
 
     if args.output_directory is None:
         output_dir = args.input_directory
@@ -67,7 +79,10 @@ if __name__ == '__main__':
 
         im1 = cv2.imread(join(input_dir, file), cv2.IMREAD_UNCHANGED)
         # im1 = resize_and_cut(im1)
-        im2 = add_alpha_channel_5(im1, new_shape, threshold)
+        if rgb_mask:
+            im2 = add_alpha_channel6(im1, new_shape, threshold, kernel)
+        else:
+            im2 = add_alpha_channel_5(im1, new_shape, threshold)
         # im2 = add_alpha_channel_2(im1, new_shape, threshold)
         if suffix is None:
             cv2.imwrite('{}.png'.format(join(output_dir, file_name)), im2)
