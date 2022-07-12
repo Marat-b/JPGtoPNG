@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from cv2_imshow import cv2_imshow
+from utils.cv2_imshow import cv2_imshow
 from utils.utils import get_mask, resize_rgba
 
 

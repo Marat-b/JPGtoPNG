@@ -1,7 +1,6 @@
 import cv2
-import numpy as np
 
-from cv2_imshow import cv2_imshow
+from utils.cv2_imshow import cv2_imshow
 
 
 def add_alpha_channel_4(image):
