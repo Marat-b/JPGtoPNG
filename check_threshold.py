@@ -42,7 +42,7 @@ cv2.namedWindow(windowName, cv2.WINDOW_AUTOSIZE)
 
 # load an image
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\store\in\set32\20220513_144430.jpg"
-image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\validate\internalrot\20220624_182509.jpg"
+image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\internalrot\20220624_191212.jpg"
 image = cv2.imdecode(np.fromfile(image_path, np.uint8), cv2.IMREAD_UNCHANGED)
 # cv2.createTrackbar(trackbarValue, windowName, scaleFactor, 255, scale_hsv)
 # cv2.createTrackbar(blurValue, windowName, scale_blur, 100, scale_hsv)

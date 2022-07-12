@@ -82,7 +82,7 @@ if __name__ == '__main__':
         if rgb_mask:
             im2 = add_alpha_channel6(im1, new_shape, threshold, kernel)
         else:
-            im2 = add_alpha_channel_5(im1, new_shape, threshold)
+            im2 = add_alpha_channel_5(im1, new_shape, threshold, kernel)
         # im2 = add_alpha_channel_2(im1, new_shape, threshold)
         if suffix is None:
             cv2.imwrite('{}.png'.format(join(output_dir, file_name)), im2)
