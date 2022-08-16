@@ -6,9 +6,8 @@ import pathlib
 
 from tqdm import tqdm
 
-from add_alpha_channel6 import add_alpha_channel6
-from add_alpha_channel_2 import add_alpha_channel_2
-from add_alpha_channel_5 import add_alpha_channel_5
+from add_alpha_channel import add_alpha_channel_3
+from add_alpha_channel_7 import add_alpha_channel_7
 
 
 def tuple_type(strings):
@@ -39,28 +38,20 @@ if __name__ == '__main__':
         "-s", "--shape", default=(512, 512), type=tuple_type,
         help="New shape of image"
     )
-    parser.add_argument("-t", "--threshold", default=50, type=int,
-                        help="Threshold for image")
     parser.add_argument(
-        "-u", "--suffix", default=None, type=str,
-        help="Suffix for name of file"
-    )
+        "-t", "--threshold", default=50, type=int,
+        help="Threshold for image"
+        )
     parser.add_argument(
         "-k", "--kernel", default=1, type=int,
         help="Kernel of blur"
     )
-    parser.add_argument(
-        "-rgb", "--rgb_mask", default=False, type=bool,
-        help="RGB mask is choose"
-    )
+
     args = parser.parse_args()
     input_dir = args.input_directory
-    kernel = args.kernel
     new_shape = args.shape
-    rgb_mask = args.rgb_mask
+    kernel = args.kernel
     threshold = args.threshold
-    suffix = args.suffix
-
 
     if args.output_directory is None:
         output_dir = args.input_directory
@@ -79,14 +70,7 @@ if __name__ == '__main__':
 
         im1 = cv2.imread(join(input_dir, file), cv2.IMREAD_UNCHANGED)
         # im1 = resize_and_cut(im1)
-        if rgb_mask:
-            # RGB channels
-            im2 = add_alpha_channel6(im1, new_shape, threshold, kernel)
-        else:
-            # HSV channels
-            im2 = add_alpha_channel_5(im1, new_shape, threshold, kernel)
-        # im2 = add_alpha_channel_2(im1, new_shape, threshold)
-        if suffix is None:
-            cv2.imwrite('{}.png'.format(join(output_dir, file_name)), im2)
-        else:
-            cv2.imwrite('{}_{}.png'.format(join(output_dir, file_name), suffix), im2)
+
+        im2 = add_alpha_channel_7(im1, new_shape, threshold, kernel)
+
+        cv2.imwrite('{}_26.png'.format(join(output_dir, file_name)), im2)

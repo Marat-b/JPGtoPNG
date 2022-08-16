@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+from utils.utils import resize_rgba
+
 
 def add_alpha_channel(image):
     # print(image)
@@ -55,13 +57,13 @@ def add_alpha_channel_2(image):
 
 
 
-def add_alpha_channel_3(image):
+def add_alpha_channel_3(image, shape):
     """
     for set26
     :param image:
     :return:
     """
-    image = cv2.resize(image, (600, 402))
+    # image = cv2.resize(image, (600, 402))
     image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     b_channel, g_channel, r_channel = cv2.split(image)
     h_channel, s_channel, v_channel = cv2.split(image_hsv)
@@ -79,7 +81,7 @@ def add_alpha_channel_3(image):
     ###################################################
 
     image_rgba = cv2.merge((b_channel, g_channel, r_channel, mask_united))
-    return image_rgba
+    return resize_rgba(image_rgba, shape)
 
 
 if __name__ == '__main__':
