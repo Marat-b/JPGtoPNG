@@ -20,8 +20,10 @@ def scale_rgb(*args):
     b_channel, g_channel, r_channel = cv2.split(image)
     b_channel_blurred = cv2.blur(b_channel, (scale_blur, scale_blur))
     mask = cv2.threshold(b_channel_blurred, scaleFactor, maxScaleUp, cv2.THRESH_BINARY_INV)[1]
-    mask = cv2.resize(mask, (600, 600))
-    cv2.imshow(windowName, mask)
+    if mask is not None:
+        image_masked = cv2.bitwise_and(image, image, mask=mask)
+    image_masked = cv2.resize(image_masked, (800, 800))
+    cv2.imshow(windowName, image_masked)
 
 
 def scale_hsv(*args):
@@ -65,9 +67,13 @@ cv2.namedWindow(windowName, cv2.WINDOW_AUTOSIZE)
 # load an image
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\store\in\set32\20220513_144430.jpg"
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\store\in\set26\DSC_0589.JPG"
-# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\internalrot\20220624_191212.jpg"
+# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\necrosis\20220529_135716.jpg"
+# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\necrosis\t\20220529_135420.jpg"
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\alternariosis\20220603_140711.jpg"
-image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\fomosis20220809\t30\20220807_172720.jpg"
+# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\fusarium20220809\t\20220807_181635.jpg"
+# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\phytophthorosis\20220601_152635.jpg"
+# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\pinkrot\20220528_171637.jpg"
+image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\scab20220809\t\20220727_132839.jpg"
 image = cv2.imdecode(np.fromfile(image_path, np.uint8), cv2.IMREAD_UNCHANGED)
 cv2.createTrackbar(trackbarValue, windowName, scaleFactor, 255, scale_hsv)
 cv2.createTrackbar(blurValue, windowName, scale_blur, 100, scale_hsv)
