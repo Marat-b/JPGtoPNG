@@ -66,14 +66,14 @@ cv2.namedWindow(windowName, cv2.WINDOW_AUTOSIZE)
 
 # load an image
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\store\in\set32\20220513_144430.jpg"
-# image_path = r"Y:\UTILZ\MaskRCNN\potato\store\in\set26\DSC_0589.JPG"
+# image_path = r"F:\VMWARE\FOLDER\UTILZ\MaskRCNN\potato\dataset\raw\validate\internalrot\t\20220624_182509.jpg"
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\necrosis\20220529_135716.jpg"
-# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\necrosis\t\20220529_135420.jpg"
+image_path = r"F:\VMWARE\FOLDER\UTILZ\MaskRCNN\potato\dataset\raw\validate\necrosis\t\20220529_135713.jpg"
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\alternariosis\20220603_140711.jpg"
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\fusarium20220809\t\20220807_181635.jpg"
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\phytophthorosis\20220601_152635.jpg"
 # image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\pinkrot\20220528_171637.jpg"
-image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\scab20220809\t\20220727_132839.jpg"
+# image_path = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\train\scab20220809\t\20220727_132839.jpg"
 image = cv2.imdecode(np.fromfile(image_path, np.uint8), cv2.IMREAD_UNCHANGED)
 cv2.createTrackbar(trackbarValue, windowName, scaleFactor, 255, scale_hsv)
 cv2.createTrackbar(blurValue, windowName, scale_blur, 100, scale_hsv)
