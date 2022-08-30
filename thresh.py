@@ -6,7 +6,7 @@ from utils.cv2_imshow import cv2_imshow
 # image_path = r'Y:\UTILZ\MaskRCNN\potato\store\in\set26\DSC_0614.JPG'
 # image_path = 'Y:\\UTILZ\\MaskRCNN\\potato\\store\\in\\yandex\\Картошка фото\\20220418_101211.jpg'.encode(
 #     'cp1251').decode('utf-8')
-image_path2 = r"Y:\UTILZ\MaskRCNN\potato\dataset\raw\validate\internalrot\20220624_182735.jpg"
+image_path2 = r"F:\VMWARE\FOLDER\UTILZ\MaskRCNN\potato\dataset\raw\train\strong20220826\DSC_0562.JPG"
 print(image_path2)
 
 # image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
