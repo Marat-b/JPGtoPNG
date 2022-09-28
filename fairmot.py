@@ -88,8 +88,8 @@ if __name__ == '__main__':
     else:
         output_dir = args.output_directory
 
-    pathlib.Path(f'{output_dir}/images').mkdir(parents=True, exist_ok=True)
-    pathlib.Path(f'{output_dir}/labels').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(f'{output_dir}/images/train').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(f'{output_dir}/labels_with_ids/train').mkdir(parents=True, exist_ok=True)
 
     files = [f for f in listdir(input_dir) if isfile(join(input_dir, f)) and
              join(input_dir, f).split('.')[1] != 'db']
@@ -110,10 +110,12 @@ if __name__ == '__main__':
         # im2 = add_alpha_channel_2(im1, new_shape, threshold)
         im3 = im2[:, :, :-1]
         datas = get_sizes(im2[:, :, 3])
-        file = open(join(f'{output_dir}/labels',  f'{file_name}_{suffix}.txt'), 'w')
-        file.write(f'0 {i} {datas}')
-        file.close()
+
         if suffix is None:
-            cv2.imwrite('{}.jpg'.format(join(f'{output_dir}/images', file_name)), im3)
+            cv2.imwrite('{}.jpg'.format(join(f'{output_dir}/images/train', file_name)), im3)
+            with open(join(f'{output_dir}/labels_with_ids/train', f'{file_name}.txt'), 'w') as f:
+                f.write(f'0 {i} {datas}')
         else:
-            cv2.imwrite('{}_{}.jpg'.format(join(f'{output_dir}/images', file_name), suffix), im3)
+            cv2.imwrite('{}_{}.jpg'.format(join(f'{output_dir}/images/train', file_name), suffix), im3)
+            with open(join(f'{output_dir}/labels_with_ids/train', f'{file_name}_{suffix}.txt'), 'w') as f:
+                f.write(f'0 {i} {datas}')
