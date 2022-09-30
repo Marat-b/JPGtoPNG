@@ -74,6 +74,10 @@ if __name__ == '__main__':
         "-rgb", "--rgb_mask", default=False, type=bool,
         help="RGB mask is choose"
     )
+    parser.add_argument(
+        "-sn", "--started_number", default=0, type=int,
+        help="Started number"
+    )
     args = parser.parse_args()
     input_dir = args.input_directory
     kernel = args.kernel
@@ -81,6 +85,7 @@ if __name__ == '__main__':
     rgb_mask = args.rgb_mask
     threshold = args.threshold
     suffix = args.suffix
+    started_number = args.started_number
 
 
     if args.output_directory is None:
@@ -96,6 +101,7 @@ if __name__ == '__main__':
     count = 0
     for i, file in enumerate(tqdm(files)):
         # print(file)
+        j = i + started_number
         file_name, ext = file.split('.')
         # print('{}.png'.format(join(input_dir, file_name)))
 
@@ -114,8 +120,10 @@ if __name__ == '__main__':
         if suffix is None:
             cv2.imwrite('{}.jpg'.format(join(f'{output_dir}/images/train', file_name)), im3)
             with open(join(f'{output_dir}/labels_with_ids/train', f'{file_name}.txt'), 'w') as f:
-                f.write(f'0 {i} {datas}')
+                f.write(f'0 {j} {datas}')
         else:
             cv2.imwrite('{}_{}.jpg'.format(join(f'{output_dir}/images/train', file_name), suffix), im3)
             with open(join(f'{output_dir}/labels_with_ids/train', f'{file_name}_{suffix}.txt'), 'w') as f:
-                f.write(f'0 {i} {datas}')
+                f.write(f'0 {j} {datas}')
+
+    print(f'Count={j}\nNext number={j+1}')
