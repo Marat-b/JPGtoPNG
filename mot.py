@@ -3,12 +3,11 @@ from os import listdir
 from os.path import join, isfile
 import cv2
 import pathlib
-import shutil
 
 from tqdm import tqdm
 
-from add_alpha_channel6 import add_alpha_channel6
-from add_alpha_channel_5 import add_alpha_channel_5
+from alpha_channel.add_alpha_channel6 import add_alpha_channel6
+from alpha_channel.add_alpha_channel_5 import add_alpha_channel_5
 
 
 def tuple_type(strings):

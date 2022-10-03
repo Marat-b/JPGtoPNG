@@ -1,14 +1,16 @@
 import os
+import sys
 from os import listdir
 from os.path import join, isfile
 import cv2
 import pathlib
-import shutil
 
 from tqdm import tqdm
 
-from add_alpha_channel6 import add_alpha_channel6
-from add_alpha_channel_5 import add_alpha_channel_5
+# sys.path.append('../utils')
+sys.path.append('..')
+from alpha_channel.add_alpha_channel6 import add_alpha_channel6
+from alpha_channel.add_alpha_channel_5 import add_alpha_channel_5
 
 
 def tuple_type(strings):
@@ -63,10 +65,6 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--threshold", default=50, type=int,
                         help="Threshold for image")
     parser.add_argument(
-        "-u", "--suffix", default=None, type=str,
-        help="Suffix for name of file"
-    )
-    parser.add_argument(
         "-k", "--kernel", default=1, type=int,
         help="Kernel of blur"
     )
@@ -75,33 +73,35 @@ if __name__ == '__main__':
         help="RGB mask is choose"
     )
     parser.add_argument(
-        "-sn", "--started_number", default=0, type=int,
-        help="Started number"
+        "-sn", "--start_number", default=0, type=int,
+        help="Start number"
     )
+
     args = parser.parse_args()
     input_dir = args.input_directory
     kernel = args.kernel
     new_shape = args.shape
     rgb_mask = args.rgb_mask
     threshold = args.threshold
-    suffix = args.suffix
-    started_number = args.started_number
-
+    start_number = args.start_number
 
     if args.output_directory is None:
         output_dir = args.input_directory
     else:
         output_dir = args.output_directory
 
-    pathlib.Path(f'{output_dir}/images/train').mkdir(parents=True, exist_ok=True)
-    pathlib.Path(f'{output_dir}/labels_with_ids/train').mkdir(parents=True, exist_ok=True)
+    img_dir = f'{output_dir}/images/train'
+    labels_dir = f'{output_dir}/labels_with_ids/train'
+    pathlib.Path(img_dir).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(labels_dir).mkdir(parents=True, exist_ok=True)
 
     files = [f for f in listdir(input_dir) if isfile(join(input_dir, f)) and
              join(input_dir, f).split('.')[1] != 'db']
     count = 0
+    number_of_files = len(os.listdir(img_dir))
     for i, file in enumerate(tqdm(files)):
         # print(file)
-        j = i + started_number
+        j = 1 + i + number_of_files + start_number
         file_name, ext = file.split('.')
         # print('{}.png'.format(join(input_dir, file_name)))
 
@@ -117,13 +117,10 @@ if __name__ == '__main__':
         im3 = im2[:, :, :-1]
         datas = get_sizes(im2[:, :, 3])
 
-        if suffix is None:
-            cv2.imwrite('{}.jpg'.format(join(f'{output_dir}/images/train', file_name)), im3)
-            with open(join(f'{output_dir}/labels_with_ids/train', f'{file_name}.txt'), 'w') as f:
-                f.write(f'0 {j} {datas}')
-        else:
-            cv2.imwrite('{}_{}.jpg'.format(join(f'{output_dir}/images/train', file_name), suffix), im3)
-            with open(join(f'{output_dir}/labels_with_ids/train', f'{file_name}_{suffix}.txt'), 'w') as f:
-                f.write(f'0 {j} {datas}')
 
-    print(f'Count={j}\nNext number={j+1}')
+        cv2.imwrite('{}.jpg'.format(join(img_dir, str(j).rjust(6, '0'))), im3)
+        with open(join(labels_dir, f"{str(j).rjust(6, '0')}.txt"), 'w') as f:
+            f.write(f'0 {j} {datas}')
+
+
+    print(f'Count={j}')

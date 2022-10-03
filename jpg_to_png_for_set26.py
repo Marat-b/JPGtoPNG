@@ -1,4 +1,3 @@
-import os
 from os import listdir
 from os.path import join, isfile
 import cv2
@@ -6,8 +5,7 @@ import pathlib
 
 from tqdm import tqdm
 
-from add_alpha_channel import add_alpha_channel_3
-from add_alpha_channel_7 import add_alpha_channel_7
+from alpha_channel.add_alpha_channel_7 import add_alpha_channel_7
 
 
 def tuple_type(strings):

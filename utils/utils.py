@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 
 from utils.cv2_imshow import cv2_imshow
+# import cv2_imshow
 
 
 def resize_rgba(imga, shape):

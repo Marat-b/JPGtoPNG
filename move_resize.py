@@ -5,9 +5,6 @@ import pathlib
 
 from tqdm import tqdm
 
-from add_alpha_channel_2 import add_alpha_channel_2
-from add_alpha_channel_5 import add_alpha_channel_5
-
 
 def tuple_type(strings):
     strings = strings.replace("(", "").replace(")", "")
