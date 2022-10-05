@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
         cv2.imwrite('{}.jpg'.format(join(img_dir, str(j).rjust(6, '0'))), im3)
         with open(join(labels_dir, f"{str(j).rjust(6, '0')}.txt"), 'w') as f:
-            f.write(f'1 {j} {datas}')
+            f.write(f'0 {j} {datas}')
 
 
     print(f'Count={j}')
