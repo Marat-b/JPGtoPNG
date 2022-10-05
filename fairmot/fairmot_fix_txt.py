@@ -33,6 +33,6 @@ if __name__ == '__main__':
             old_string = f.read()
             # print(old_string)
         with open(join(output_dir, file), 'w') as f:
-            new_string = old_string.replace('0 ', '1 ', 1)
+            new_string = old_string.replace('1 ', '0 ', 1)
             f.writelines(new_string)
             # print(f'new_string={new_string}')
