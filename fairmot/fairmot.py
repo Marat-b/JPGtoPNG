@@ -41,7 +41,7 @@ def get_sizes(image):
     # delta = 50  # 50 pixels out of border
     x, y, w, h = cv2.boundingRect(cnt)
     # print(f'x={x}, y={y}, w={w}, h={h}')
-    output = '{:.6f} {:.6f} {:.6f} {:.6f}'.format((x+w)/(2*width), (y+height)/(2*height), w/width, h/height)
+    output = '{:.6f} {:.6f} {:.6f} {:.6f}'.format((x+w/2)/width, (y+h/2)/height, w/width, h/height)
     # print(output)
     return output
 
