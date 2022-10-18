@@ -2,6 +2,7 @@ import pathlib
 import shutil
 from os import listdir
 from os.path import isfile, join
+from random import randrange
 
 from tqdm import tqdm
 
@@ -42,4 +43,4 @@ if __name__ == '__main__':
             i = 0
             shutil.move(in_dir.format(input_dir, file), output_dir)
             # print(in_dir.format(input_dir, file))
-        i +=1
+        i = i + 1 + randrange(2)

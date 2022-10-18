@@ -70,6 +70,11 @@ def get_mask(maska):
     # cv2_imshow(canvas, 'canvas')
     return canvas
 
+def tuple_type(strings):
+    strings = strings.replace("(", "").replace(")", "")
+    mapped_int = map(int, strings.split(","))
+    return tuple(mapped_int)
+
 
 def rgba2mask(rgba_image):
     if rgba_image.shape[2] == 4:

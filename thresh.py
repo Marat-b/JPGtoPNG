@@ -6,7 +6,7 @@ from utils.cv2_imshow import cv2_imshow
 # image_path = r'Y:\UTILZ\MaskRCNN\potato\store\in\set26\DSC_0614.JPG'
 # image_path = 'Y:\\UTILZ\\MaskRCNN\\potato\\store\\in\\yandex\\Картошка фото\\20220418_101211.jpg'.encode(
 #     'cp1251').decode('utf-8')
-image_path2 = r"F:\VMWARE\FOLDER\UTILZ\MaskRCNN\potato\dataset\raw\train\strong20220826\DSC_0562.JPG"
+image_path2 = r"F:\VMWARE\FOLDER\UTILZ\MaskRCNN\potato\dataset\raw\train\strong5\DSC_0002.png"
 print(image_path2)
 
 # image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
@@ -18,8 +18,8 @@ image_resized = image.copy()
 # image_resized = cv2.resize(image_hsv, (300, 201))
 # image_resized = image_resized[:, :280]
 
-b_channel, g_channel, r_channel = cv2.split(image)
-h_channel, s_channel, v_channel = cv2.split(image_hsv)
+b_channel, g_channel, r_channel = cv2.split(image)[:3]
+h_channel, s_channel, v_channel = cv2.split(image_hsv)[:3]
 # h_channel_blurred = cv2.GaussianBlur(h_channel, (19, 19), 13, 13)
 h_channel_blurred = cv2.blur(h_channel, (35, 35))
 # h_channel_blurred = cv2.GaussianBlur(h_channel, (35, 35), 19, 19)

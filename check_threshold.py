@@ -18,7 +18,7 @@ def scale_rgb(*args):
 
     scaleFactor = cv2.getTrackbarPos("Threshold", "Scale threshold")
     scale_blur = cv2.getTrackbarPos("Blur", "Scale threshold")
-    b_channel, g_channel, r_channel = cv2.split(image)
+    b_channel, g_channel, r_channel = cv2.split(image)[:3]
     b_channel_blurred = cv2.blur(b_channel, (scale_blur, scale_blur))
     mask = cv2.threshold(b_channel_blurred, scaleFactor, maxScaleUp, cv2.THRESH_BINARY_INV)[1]
     if mask is not None:
@@ -104,7 +104,7 @@ if __name__ == '__main__':
         help="input path to a JPG file "
     )
     parser.add_argument(
-        "-rgb", "--rgb_mask", default=False, type=bool,
+        "-rgb", "--rgb_mask", default=False, action="store_true",
         help="RGB mask is choose"
     )
     args = parser.parse_args()

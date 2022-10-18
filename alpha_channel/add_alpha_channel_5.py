@@ -15,10 +15,10 @@ def add_alpha_channel_5(image, shape, threshold: int, kernel_blur: int = 1):
     :param image:
     :return:
     """
-    b_channel, g_channel, r_channel = cv2.split(image)
+    b_channel, g_channel, r_channel = cv2.split(image)[:3]
     ##################################################
     image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    h_channel, s_channel, v_channel = cv2.split(image_hsv)
+    h_channel, s_channel, v_channel = cv2.split(image_hsv)[:3]
     # cv2_imshow(s_channel, 's_channel')
     s_channel_blurred = cv2.blur(s_channel, (kernel_blur, kernel_blur))
     # cv2_imshow(s_channel_blurred, 's_channel_blurred')

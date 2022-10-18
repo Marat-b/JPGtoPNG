@@ -1,27 +1,38 @@
-from os import listdir
-from os.path import join, isfile
-import cv2
 import pathlib
+from os import listdir
+from os.path import isfile, join
 
+import cv2
 from tqdm import tqdm
 
-from alpha_channel.add_alpha_channel6 import add_alpha_channel6
-from alpha_channel.add_alpha_channel_5 import add_alpha_channel_5
-
+# from utils.cv2_imshow import cv2_imshow
+from utils.utils import resize_rgba
 
 def tuple_type(strings):
     strings = strings.replace("(", "").replace(")", "")
     mapped_int = map(int, strings.split(","))
     return tuple(mapped_int)
 
-
-def resize_and_cut(image):
-    image_resized = cv2.resize(image, (600, 401))
-    image_resized = image_resized[:, :550]
-    return image_resized
-
+def rgba_to_rgba(image, shape):
+    """
+    for
+    :param kernel_blur:
+    :param threshold:
+    :param shape:
+    :type shape:
+    :param image:
+    :return:
+    """
+    b_channel, g_channel, r_channel, a_channel = cv2.split(image)
+    ##################################################
+    image_rgba = cv2.merge((b_channel, g_channel, r_channel, a_channel))
+    return resize_rgba(image_rgba, shape)
 
 if __name__ == '__main__':
+    # image_path = r'F:\VMWARE\FOLDER\UTILZ\MaskRCNN\potato\dataset\raw\train\strong5\DSC_0002.png'
+    # image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
+    # img = rgba_to_rgba(image, (128,128), 50)
+    # cv2_imshow(img)
     import argparse
 
     parser = argparse.ArgumentParser(description="Generate png files")
@@ -37,28 +48,14 @@ if __name__ == '__main__':
         "-s", "--shape", default=(512, 512), type=tuple_type,
         help="New shape of image"
     )
-    parser.add_argument("-t", "--threshold", default=50, type=int,
-                        help="Threshold for image")
     parser.add_argument(
         "-u", "--suffix", default=None, type=str,
         help="Suffix for name of file"
     )
-    parser.add_argument(
-        "-k", "--kernel", default=1, type=int,
-        help="Kernel of blur"
-    )
-    parser.add_argument(
-        "-rgb", "--rgb_mask", default=False, action="store_true",
-        help="RGB mask is choose"
-    )
     args = parser.parse_args()
     input_dir = args.input_directory
-    kernel = args.kernel
     new_shape = args.shape
-    rgb_mask = args.rgb_mask
-    threshold = args.threshold
     suffix = args.suffix
-
 
     if args.output_directory is None:
         output_dir = args.input_directory
@@ -77,12 +74,8 @@ if __name__ == '__main__':
 
         im1 = cv2.imread(join(input_dir, file), cv2.IMREAD_UNCHANGED)
         # im1 = resize_and_cut(im1)
-        if rgb_mask:
-            # RGB channels
-            im2 = add_alpha_channel6(im1, new_shape, threshold, kernel)
-        else:
-            # HSV channels
-            im2 = add_alpha_channel_5(im1, new_shape, threshold, kernel)
+
+        im2 = rgba_to_rgba(im1, new_shape)
         # im2 = add_alpha_channel_2(im1, new_shape, threshold)
         if suffix is None:
             cv2.imwrite('{}.png'.format(join(output_dir, file_name)), im2)
