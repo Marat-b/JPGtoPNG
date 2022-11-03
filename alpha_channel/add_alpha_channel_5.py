@@ -35,14 +35,14 @@ if __name__ == '__main__':
     # img = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
     # pictures = ['20220418_131151.jpg', '20220418_140554.jpg', '20220418_140748.jpg', '20220503_131918.jpg',
     # '20220503_141519.jpg']
-    pictures = ['photo_2022-06-06_15-51-19.jpg', 'photo_2022-06-06_15-51-39.jpg', 'photo_2022-06-06_15-51-52.jpg']
+    pictures = ['gettyimages-84781777-612x612.jpg', 'gettyimages-529262345-612x612.jpg']
     # image_path_root = r"Y:\UTILZ\MaskRCNN\potato\store\in\set31\{}"
-    image_path_root = r"C:\softz\work\potato\in\images\set37\{}"
+    image_path_root = r"C:\softz\work\potato\dataset\training\raw\train\strong20221026\black\{}"
     for picture in pictures:
         image_path = image_path_root.format(picture)
         img = cv2.imdecode(np.fromfile(image_path, np.uint8), cv2.IMREAD_UNCHANGED)
         cv2_imshow(img, 'img')
-        rgba = add_alpha_channel_5(img, (512, 512))
+        rgba = add_alpha_channel_5(img, (512, 512), threshold=50)
         cv2_imshow(rgba, 'rgba 1')
         # rgba = resize_rgba(rgba)
         # cv2_imshow(rgba, 'rgba 2')

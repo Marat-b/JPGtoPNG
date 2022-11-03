@@ -43,4 +43,4 @@ if __name__ == '__main__':
             i = 0
             shutil.move(in_dir.format(input_dir, file), output_dir)
             # print(in_dir.format(input_dir, file))
-        i = i + 1 + randrange(2)
+        i = i + 1 # + randrange(2)

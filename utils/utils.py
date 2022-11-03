@@ -70,6 +70,26 @@ def get_mask(maska):
     # cv2_imshow(canvas, 'canvas')
     return canvas
 
+def get_mask_white_canvas(maska):
+    maxArea = 0
+    ind = 0
+    mask = maska.copy()
+    contours, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for index, cnt in enumerate(contours):
+        area = cv2.contourArea(cnt)
+        if maxArea < area:
+            maxArea = area
+            ind = index
+
+    contour = contours[ind]
+    # cv2_imshow(mask, 'mask')
+    canvas = np.ones_like(mask) * 255
+    # print(contour.shape, contour.dtype)
+    # cv2_imshow(canvas, 'canvas')
+    cv2.fillPoly(canvas, [contour], (0, 0, 0))
+    # cv2_imshow(canvas, 'canvas')
+    return canvas
+
 def tuple_type(strings):
     strings = strings.replace("(", "").replace(")", "")
     mapped_int = map(int, strings.split(","))
