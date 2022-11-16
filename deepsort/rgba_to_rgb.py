@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 
 if __name__ == '__main__':
-    # for deepsort
+    # for deeplabv3
     import argparse
 
     parser = argparse.ArgumentParser(description="Generate png files")
