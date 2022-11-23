@@ -8,10 +8,12 @@ import pathlib
 from tqdm import tqdm
 
 # sys.path.append('../utils')
+
+
 sys.path.append('..')
 from alpha_channel.add_alpha_channel6 import add_alpha_channel6
 from alpha_channel.add_alpha_channel_5 import add_alpha_channel_5
-
+from utils.utils import resize_rgba
 
 def tuple_type(strings):
     strings = strings.replace("(", "").replace(")", "")
@@ -69,12 +71,20 @@ if __name__ == '__main__':
         help="Kernel of blur"
     )
     parser.add_argument(
-        "-rgb", "--rgb_mask", default=False, type=bool,
+        "-rgb", "--rgb_mask", default=False, action="store_true",
         help="RGB mask is choose"
     )
     parser.add_argument(
         "-sn", "--start_number", default=0, type=int,
         help="Start number"
+    )
+    parser.add_argument(
+        "-m", "--use_mask", action='store_true', default=False,
+        help="Using only file mask"
+    )
+    parser.add_argument(
+        "-c", "--count", dest="count", default=10, type=int,
+        help="Count items"
     )
 
     args = parser.parse_args()
@@ -84,6 +94,8 @@ if __name__ == '__main__':
     rgb_mask = args.rgb_mask
     threshold = args.threshold
     start_number = args.start_number
+    use_mask = args.use_mask
+    count_items = args.count
 
     if args.output_directory is None:
         output_dir = args.input_directory
@@ -94,11 +106,15 @@ if __name__ == '__main__':
     labels_dir = f'{output_dir}/labels_with_ids/train'
     pathlib.Path(img_dir).mkdir(parents=True, exist_ok=True)
     pathlib.Path(labels_dir).mkdir(parents=True, exist_ok=True)
+    img_dir_val = f'{output_dir}/images/val'
+    labels_dir_val = f'{output_dir}/labels_with_ids/val'
+    pathlib.Path(img_dir_val).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(labels_dir_val).mkdir(parents=True, exist_ok=True)
 
     files = [f for f in listdir(input_dir) if isfile(join(input_dir, f)) and
              join(input_dir, f).split('.')[1] != 'db']
     count = 0
-    number_of_files = len(os.listdir(img_dir))
+    number_of_files = len(os.listdir(img_dir)) + len(os.listdir(img_dir_val))
     for i, file in enumerate(tqdm(files)):
         # print(file)
         j = 1 + i + number_of_files + start_number
@@ -107,20 +123,27 @@ if __name__ == '__main__':
 
         im1 = cv2.imread(join(input_dir, file), cv2.IMREAD_UNCHANGED)
         # im1 = resize_and_cut(im1)
-        if rgb_mask:
-            # RGB channels
-            im2 = add_alpha_channel6(im1, new_shape, threshold, kernel)
+        if use_mask:
+            im2 =resize_rgba(im1, new_shape)
         else:
-            # HSV channels
-            im2 = add_alpha_channel_5(im1, new_shape, threshold, kernel)
+            if rgb_mask:
+                # RGB channels
+                im2 = add_alpha_channel6(im1, new_shape, threshold, kernel)
+            else:
+                # HSV channels
+                im2 = add_alpha_channel_5(im1, new_shape, threshold, kernel)
         # im2 = add_alpha_channel_2(im1, new_shape, threshold)
         im3 = im2[:, :, :-1]
         datas = get_sizes(im2[:, :, 3])
 
-
-        cv2.imwrite('{}.jpg'.format(join(img_dir, str(j).rjust(6, '0'))), im3)
-        with open(join(labels_dir, f"{str(j).rjust(6, '0')}.txt"), 'w') as f:
-            f.write(f'0 {j} {datas}')
+        if j % count_items == 0:
+            cv2.imwrite('{}.jpg'.format(join(img_dir_val, str(j).rjust(6, '0'))), im3)
+            with open(join(labels_dir_val, f"{str(j).rjust(6, '0')}.txt"), 'w') as f:
+                f.write(f'0 {j} {datas}')
+        else:
+            cv2.imwrite('{}.jpg'.format(join(img_dir, str(j).rjust(6, '0'))), im3)
+            with open(join(labels_dir, f"{str(j).rjust(6, '0')}.txt"), 'w') as f:
+                f.write(f'0 {j} {datas}')
 
 
     print(f'Count={j}')
