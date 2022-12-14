@@ -8,7 +8,7 @@ import pathlib
 from tqdm import tqdm
 
 # sys.path.append('../utils')
-
+from fairmot_resize import fairmot_resize
 
 sys.path.append('..')
 from alpha_channel.add_alpha_channel6 import add_alpha_channel6
@@ -133,6 +133,7 @@ if __name__ == '__main__':
                 # HSV channels
                 im2 = add_alpha_channel_5(im1, new_shape, threshold, kernel)
         # im2 = add_alpha_channel_2(im1, new_shape, threshold)
+        im2 = fairmot_resize(im2)
         im3 = im2[:, :, :-1]
         datas = get_sizes(im2[:, :, 3])
 
